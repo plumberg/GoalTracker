@@ -23,7 +23,7 @@ public class AddGoal extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 setupDone();
-               // finish();
+               AddGoal.super.onBackPressed();
             }
         });
     }
