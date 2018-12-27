@@ -29,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setupFAB() {
-        FloatingActionButton fab;
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        final FloatingActionButton fab;
+        fab = (FloatingActionButton) findViewById(R.id.add_to_list);  //changed from  R.id.fab button
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
