@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,44 +9,43 @@
     tools:showIn="@layout/activity_main">
 
 
-    <RelativeLayout
-        android:id="@+id/activity_main"
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:fab="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context="com.teamproblemsolver.fabsubmenu.MainActivity"
-        xmlns:fab="http://schemas.android.com/apk/res-auto">
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        tools:context="com.teamproblemsolver.fabsubmenu.MainActivity">
 
         <com.github.clans.fab.FloatingActionMenu
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
+            fab:menu_animationDelayPerItem="50"
+            fab:menu_backgroundColor="@android:color/transparent"
+            fab:menu_buttonSpacing="0dp"
+            fab:menu_colorNormal="@color/colorPrimaryDark"
+            fab:menu_colorPressed="#c784d3ed"
+            fab:menu_colorRipple="#99FFFFFF"
+            fab:menu_fab_hide_animation="@anim/hide_to_bottom"
+            fab:menu_fab_show_animation="@anim/show_from_bottom"
             fab:menu_fab_size="normal"
-            fab:menu_showShadow="true"
+            fab:menu_icon="@drawable/fab_add"
+            fab:menu_openDirection="up"
             fab:menu_shadowColor="#66000000"
             fab:menu_shadowRadius="4dp"
             fab:menu_shadowXOffset="1dp"
             fab:menu_shadowYOffset="3dp"
-            fab:menu_colorNormal="#33b5e5"
-            fab:menu_colorPressed="#E75043"
-            fab:menu_colorRipple="#99FFFFFF"
-            fab:menu_animationDelayPerItem="50"
-            fab:menu_icon="@drawable/fab_add"
-            fab:menu_buttonSpacing="0dp"
-            fab:menu_openDirection="up"
-            fab:menu_backgroundColor="@android:color/transparent"
-            fab:menu_fab_show_animation="@anim/show_from_bottom"
-            fab:menu_fab_hide_animation="@anim/hide_to_bottom">
+            fab:menu_showShadow="true">
 
 
             <com.github.clans.fab.FloatingActionButton
@@ -55,15 +53,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_add_to_list"
-                fab:fab_size="mini"
-                fab:fab_label="Location" />
+                fab:fab_colorNormal="@color/colorPrimary"
+                fab:fab_label="Add Goal"
+                fab:fab_size="mini" />
 
         </com.github.clans.fab.FloatingActionMenu>
+
         <ListView
             android:id="@+id/listview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="wrap_content" />
     </RelativeLayout>
 
     <!--

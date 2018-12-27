@@ -10,6 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+//import com.github.clans.fab.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,12 +31,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setupFAB() {
-        final FloatingActionButton fab;
-        fab = (FloatingActionButton) findViewById(R.id.add_to_list);  //changed from  R.id.fab button
+        final com.github.clans.fab.FloatingActionButton fab;
+        fab = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.add_to_list);  //changed from  R.id.fab button
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(getApplicationContext(),"Starting new activity...",Toast.LENGTH_LONG).show();
                 startActivity(new Intent(MainActivity.this,AddGoal.class));
             }
         });

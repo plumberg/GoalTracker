@@ -6,10 +6,10 @@
     android:layout_height="match_parent">
 
 
-    <TextView android:id="@+id/text1"
+    <TextView android:id="@+id/textUp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/colorLineUp"
         android:textSize="21sp"
         android:textStyle="bold"
         />
@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:textColor="@android:color/holo_green_dark"
+        android:textColor="@color/colorLineBottom"
         android:textStyle="bold"
         />
 </LinearLayout>
