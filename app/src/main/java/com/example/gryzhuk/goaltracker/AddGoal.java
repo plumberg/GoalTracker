@@ -33,6 +33,7 @@ public class AddGoal extends AppCompatActivity {
     private HashMap<String, String> associatedItem;
     private String strMssg;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +41,7 @@ public class AddGoal extends AppCompatActivity {
 
         strMssg = "";
 
-        list = (ListView) findViewById(R.id.listview);
+        list = findViewById(R.id.list);
         associatedItem = new HashMap<String, String>();
         setupMsg();
     }
@@ -50,16 +51,10 @@ public class AddGoal extends AppCompatActivity {
       //  picker.setMinDate(new Date().getDate());
         setContentView(R.layout.activity_add_goal);
         picker=(DatePicker)findViewById(R.id.datePicker1);
-
-       // Toast.makeText(this,picker.getDayOfMonth()+"/"+ (picker.getMonth() + 1)+"/"+picker.getYear(),Toast.LENGTH_LONG).show();
-
-
-
     }
 
     public void setupMsg(){
         message = (EditText)findViewById(R.id.enteredGoalTxt);
-        //message.setText("");
     }
 
 
@@ -96,30 +91,43 @@ public class AddGoal extends AppCompatActivity {
 
         associatedItem.put(formatedDate, strMssg);
 
+       // Create an ArrayList that will hold the data.
+        // Each HashMap entry will have a Key (First line) and a Value (Second line) of each one of the ListView Items.
 
-        ArrayList<HashMap<String, String>> listItems = new ArrayList<>();
-
+        ArrayList<HashMap<String, String>> listItems = new ArrayList<HashMap<String, String>>();
        // String [] hashList = (String[]) associatedItem.entrySet().toArray();
-
-        SimpleAdapter adapter = new SimpleAdapter(this, listItems , R.layout.list_item,
-                new String[]{"First Line", "Second Line"},
-                new int[]{R.id.textUp, R.id.text2});
-
-       /*
-       associatedItem works, contains info
-       String out = associatedItem.toString();
-       System.out.println(out);
+      /*  HashMap<String, String> resultsMap = new HashMap<String, String>(2);
+        resultsMap.put("First Line", formatedDate);
+        resultsMap.put("Second Line",strMssg);
+        listItems.add(resultsMap);
         */
+
+
+      // associatedItem works, contains info
+      // String out = associatedItem.toString();
+      // System.out.println(out);
+
+
+
+       //This iterator should go through exsisting HashMap and put everything to a listView
         Iterator it = associatedItem.entrySet().iterator();
         while (it.hasNext())
         {
-            HashMap<String, String> resultsMap = new HashMap<>();
+            HashMap<String, String> resultsMap = new HashMap<>(2);
             Map.Entry pair = (Map.Entry)it.next();
             resultsMap.put("First Line",formatedDate);
             resultsMap.put("Second Line",strMssg);//pair.getValue().toString()
             listItems.add(resultsMap);
         }
 
+
+        //set up the adapter
+        SimpleAdapter adapter = new SimpleAdapter(this, listItems ,R.layout.list_item,
+                new String[]{"First Line", "Second Line"},
+                new int[]{R.id.textUp, R.id.text2});
+
+
+        view = getLayoutInflater().inflate(R.layout.list_item,null);
         list.setAdapter(adapter);
     }
 }

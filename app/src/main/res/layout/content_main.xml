@@ -54,18 +54,21 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_add_to_list"
                 fab:fab_colorNormal="@color/colorPrimary"
+                fab:fab_colorPressed="#c784d3ed"
                 fab:fab_label="Add Goal"
                 fab:fab_size="mini" />
 
         </com.github.clans.fab.FloatingActionMenu>
 
         <ListView
-            android:id="@+id/listview"
+            android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-    </RelativeLayout>
 
-    <!--
+
+
+    </RelativeLayout>
+<!--
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
@@ -77,5 +80,6 @@
             android:drawSelectorOnTop="false"
             />
     </LinearLayout>
-      -->
+-->
+
 </android.support.constraint.ConstraintLayout>
