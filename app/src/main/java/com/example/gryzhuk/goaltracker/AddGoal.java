@@ -1,5 +1,6 @@
 package com.example.gryzhuk.goaltracker;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,25 +34,22 @@ public class AddGoal extends AppCompatActivity {
 
     private EditText message;
     private DatePicker picker;
-    private ListView list;
+   // private ListView list;
     private HashMap<String, String> associatedItem;
     private String strMssg;
+    private ArrayList<HashMap<String, String>> listItems;
     //private Intent intent;
-    View dialogLayout;
+    //View dialogLayout;
 
 
     protected void onCreate( Bundle savedInstanceState) {//LayoutInflater inflater
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.activity_add_goal_text);
        // intent = new Intent();
        // intent.setClass(this,MainActivity.class);
-
         strMssg = "";
-
-
-       // list = findViewById(R.id.list);
         associatedItem = new HashMap<String, String>();
-        setContentView(R.layout.activity_add_goal_text);
+
         setupMsg();
     }
 
@@ -79,7 +77,7 @@ public class AddGoal extends AppCompatActivity {
 
     }
 
-    public void doneButtonHandler(View view,LayoutInflater inflater) {
+    public void doneButtonHandler(View view) {
         //add to the screen list, save as json?
         //Item is a date, subItem is a message
 
@@ -103,8 +101,8 @@ public class AddGoal extends AppCompatActivity {
 
        // Create an ArrayList that will hold the data.
         // Each HashMap entry will have a Key (First line) and a Value (Second line) of each one of the ListView Items.
-
-        ArrayList<HashMap<String, String>> listItems = new ArrayList<HashMap<String, String>>();
+        
+       
        // String [] hashList = (String[]) associatedItem.entrySet().toArray();
       /*  HashMap<String, String> resultsMap = new HashMap<String, String>(2);
         resultsMap.put("First Line", formatedDate);
@@ -116,10 +114,9 @@ public class AddGoal extends AppCompatActivity {
       // associatedItem works, contains info
       // String out = associatedItem.toString();
       // System.out.println(out);
+        listItems = new ArrayList<HashMap<String, String>>();
 
-
-
-       //This iterator should go through exsisting HashMap and put everything to a listView
+        //This iterator should go through exsisting HashMap and put everything to a listView
         Iterator it = associatedItem.entrySet().iterator();
         while (it.hasNext())
         {
@@ -130,18 +127,39 @@ public class AddGoal extends AppCompatActivity {
             listItems.add(resultsMap);
         }
 
-        dialogLayout = inflater.inflate(R.layout.content_main, null);
-        list = (ListView) dialogLayout.findViewById(R.id.list);
-
-        //set up the adapter, upper text and bottom text
-        SimpleAdapter adapter = new SimpleAdapter(this, listItems ,R.layout.list_item,
-                new String[]{"First Line", "Second Line"},
-                new int[]{R.id.textUp, R.id.text2});
+        //dialogLayout = inflater.inflate(R.layout.content_main, null);
+       // list = (ListView) dialogLayout.findViewById(R.id.list);
 
 
 
-        list.setAdapter(adapter);
+       /* Intent returnIntent = new Intent();
+        returnIntent.putExtra("list", listItems);
+        setResult(Activity.RESULT_OK,returnIntent);*/
+        finish();
+
+       
 
 
     }
+
+    @Override public void finish ()
+    {
+        //  create an Intent, which has a Bundle
+        //  To this bundle, we can add whatever data we want to send back to the calling Activity
+        Intent intentResults = new Intent ();
+
+        // Add some sample data
+        intentResults.putExtra ("LIST_DATA",listItems);
+
+        //  Set the result to OK and to pass back this Intent;
+        // if this is not set then it assumes it was NOT Ok.
+        // if the second argument is blank then nothing will be sent back
+        setResult (RESULT_OK, intentResults);
+
+        // Do whatever else the parent class would normally do in its finish() method
+        super.finish ();
+    }
+
+
+
 }
