@@ -21,7 +21,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
+import java.util.zip.Inflater;
 
+import static com.example.gryzhuk.goaltracker.R.layout.content_main;
 import static java.util.Locale.US;
 import static java.util.stream.IntStream.concat;
 
@@ -35,22 +37,24 @@ public class AddGoal extends AppCompatActivity {
     private HashMap<String, String> associatedItem;
     private String strMssg;
     //private Intent intent;
-   // View dialogLayout;
+    View dialogLayout;
 
 
-    protected void onCreate(Bundle savedInstanceState) {//LayoutInflater inflater
+    protected void onCreate( Bundle savedInstanceState) {//LayoutInflater inflater
         super.onCreate(savedInstanceState);
 
        // intent = new Intent();
        // intent.setClass(this,MainActivity.class);
 
         strMssg = "";
-       // dialogLayout = inflater.inflate(R.layout.content_main, null);
-        list = findViewById(R.id.list);
+
+
+       // list = findViewById(R.id.list);
         associatedItem = new HashMap<String, String>();
         setContentView(R.layout.activity_add_goal_text);
         setupMsg();
     }
+
 
 
     public void setupDate() throws ParseException {
@@ -75,13 +79,13 @@ public class AddGoal extends AppCompatActivity {
 
     }
 
-    public void doneButtonHandler(View view) {
+    public void doneButtonHandler(View view,LayoutInflater inflater) {
         //add to the screen list, save as json?
         //Item is a date, subItem is a message
 
         /*Toast.makeText(this,strMssg+" "+picker.getDayOfMonth()+"/"+
                 (picker.getMonth() + 1)+"/"+picker.getYear(),Toast.LENGTH_LONG).show();*/
-        setContentView(R.layout.content_main);
+        setContentView(content_main);
         int   day  = picker.getDayOfMonth();
         int   month= picker.getMonth();
         int   year = picker.getYear();
@@ -126,8 +130,8 @@ public class AddGoal extends AppCompatActivity {
             listItems.add(resultsMap);
         }
 
-
-        //list = (ListView) dialogLayout.findViewById(R.id.list);
+        dialogLayout = inflater.inflate(R.layout.content_main, null);
+        list = (ListView) dialogLayout.findViewById(R.id.list);
 
         //set up the adapter, upper text and bottom text
         SimpleAdapter adapter = new SimpleAdapter(this, listItems ,R.layout.list_item,
@@ -137,5 +141,7 @@ public class AddGoal extends AppCompatActivity {
 
 
         list.setAdapter(adapter);
+
+
     }
 }
