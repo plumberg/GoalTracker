@@ -1,7 +1,9 @@
 package com.example.gryzhuk.goaltracker;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -32,17 +34,21 @@ public class AddGoal extends AppCompatActivity {
     private ListView list;
     private HashMap<String, String> associatedItem;
     private String strMssg;
+    //private Intent intent;
+   // View dialogLayout;
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {//LayoutInflater inflater
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_goal_text);
+
+       // intent = new Intent();
+       // intent.setClass(this,MainActivity.class);
 
         strMssg = "";
-
+       // dialogLayout = inflater.inflate(R.layout.content_main, null);
         list = findViewById(R.id.list);
         associatedItem = new HashMap<String, String>();
+        setContentView(R.layout.activity_add_goal_text);
         setupMsg();
     }
 
@@ -75,7 +81,7 @@ public class AddGoal extends AppCompatActivity {
 
         /*Toast.makeText(this,strMssg+" "+picker.getDayOfMonth()+"/"+
                 (picker.getMonth() + 1)+"/"+picker.getYear(),Toast.LENGTH_LONG).show();*/
-
+        setContentView(R.layout.content_main);
         int   day  = picker.getDayOfMonth();
         int   month= picker.getMonth();
         int   year = picker.getYear();
@@ -113,7 +119,7 @@ public class AddGoal extends AppCompatActivity {
         Iterator it = associatedItem.entrySet().iterator();
         while (it.hasNext())
         {
-            HashMap<String, String> resultsMap = new HashMap<>(2);
+            HashMap<String, String> resultsMap = new HashMap<>();
             Map.Entry pair = (Map.Entry)it.next();
             resultsMap.put("First Line",formatedDate);
             resultsMap.put("Second Line",strMssg);//pair.getValue().toString()
@@ -121,13 +127,15 @@ public class AddGoal extends AppCompatActivity {
         }
 
 
-        //set up the adapter
+        //list = (ListView) dialogLayout.findViewById(R.id.list);
+
+        //set up the adapter, upper text and bottom text
         SimpleAdapter adapter = new SimpleAdapter(this, listItems ,R.layout.list_item,
                 new String[]{"First Line", "Second Line"},
                 new int[]{R.id.textUp, R.id.text2});
 
 
-        view = getLayoutInflater().inflate(R.layout.list_item,null);
+
         list.setAdapter(adapter);
     }
 }
