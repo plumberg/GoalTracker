@@ -57,18 +57,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setupFAB() {
-        final com.github.clans.fab.FloatingActionButton fab;
-        fab = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.add_to_list);  //changed from  R.id.fab button
+        final com.github.clans.fab.FloatingActionButton fabAdd;
+        final com.github.clans.fab.FloatingActionButton fabRemove;
+        fabAdd = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.add_to_list);  //changed from  R.id.fab button
+        fabRemove = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.remove_from_list);
 
-        fab.setOnClickListener(new View.OnClickListener() {
+        fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, AddGoal.class);
                 startActivityForResult(new Intent(MainActivity.this, AddGoal.class), 100);
-
                 // startActivity(new Intent(MainActivity.this,AddGoal.class));
             }
         });
+
+        fabRemove.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this,"Remove clicked",Toast.LENGTH_LONG).show();
+                //here add option to click on list_item which removes it
+            }
+        });
+
     }
 
     @Override

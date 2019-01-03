@@ -29,12 +29,12 @@ import static java.util.Locale.US;
 import static java.util.stream.IntStream.concat;
 
 public class AddGoal extends AppCompatActivity {
-        // create arraylist os string
-        // json storing date, message
+    // create arraylist os string
+    // json storing date, message
 
     private EditText message;
     private DatePicker picker;
-   // private ListView list;
+    // private ListView list;
     private HashMap<String, String> associatedItem;
     private String strMssg;
     private ArrayList<HashMap<String, String>> listItems;
@@ -42,11 +42,11 @@ public class AddGoal extends AppCompatActivity {
     //View dialogLayout;
 
 
-    protected void onCreate( Bundle savedInstanceState) {//LayoutInflater inflater
+    protected void onCreate(Bundle savedInstanceState) {//LayoutInflater inflater
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_goal_text);
-       // intent = new Intent();
-       // intent.setClass(this,MainActivity.class);
+        // intent = new Intent();
+        // intent.setClass(this,MainActivity.class);
         strMssg = "";
         associatedItem = new HashMap<String, String>();
 
@@ -54,25 +54,24 @@ public class AddGoal extends AppCompatActivity {
     }
 
 
-
     public void setupDate() throws ParseException {
-      //  picker.setMinDate(new Date().getDate());
+        //  picker.setMinDate(new Date().getDate());
         setContentView(R.layout.activity_add_goal);
-        picker=(DatePicker)findViewById(R.id.datePicker1);
+        picker = (DatePicker) findViewById(R.id.datePicker1);
     }
 
-    public void setupMsg(){
-        message = (EditText)findViewById(R.id.enteredGoalTxt);
+    public void setupMsg() {
+        message = (EditText) findViewById(R.id.enteredGoalTxt);
     }
 
 
     public void nextButtonHandler(View view) throws ParseException {
-       // Toast.makeText(getApplicationContext(),"Next Button",Toast.LENGTH_LONG).show();
-        strMssg= message.getText().toString();
+        // Toast.makeText(getApplicationContext(),"Next Button",Toast.LENGTH_LONG).show();
+        strMssg = message.getText().toString();
         if (!strMssg.equals("")) {
             setupDate();
         } else
-        Toast.makeText(getApplicationContext(),"Must include message",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Must include message", Toast.LENGTH_SHORT).show();
 
 
     }
@@ -84,26 +83,26 @@ public class AddGoal extends AppCompatActivity {
         /*Toast.makeText(this,strMssg+" "+picker.getDayOfMonth()+"/"+
                 (picker.getMonth() + 1)+"/"+picker.getYear(),Toast.LENGTH_LONG).show();*/
         setContentView(content_main);
-        int   day  = picker.getDayOfMonth();
-        int   month= picker.getMonth();
-        int   year = picker.getYear();
+        int day = picker.getDayOfMonth();
+        int month = picker.getMonth();
+        int year = picker.getYear();
         Calendar calendar = Calendar.getInstance();
-        calendar.set(year,month,day);
+        calendar.set(year, month, day);
 
 
-        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy", US);
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", US);
         String formatedDate = sdf.format(calendar.getTime());
 
-      //  Toast.makeText(this,formatedDate,Toast.LENGTH_SHORT).show();
+        //  Toast.makeText(this,formatedDate,Toast.LENGTH_SHORT).show();
         //put date and message to the hashmap
 
         associatedItem.put(formatedDate, strMssg);
 
-       // Create an ArrayList that will hold the data.
+        // Create an ArrayList that will hold the data.
         // Each HashMap entry will have a Key (First line) and a Value (Second line) of each one of the ListView Items.
-        
-       
-       // String [] hashList = (String[]) associatedItem.entrySet().toArray();
+
+
+        // String [] hashList = (String[]) associatedItem.entrySet().toArray();
       /*  HashMap<String, String> resultsMap = new HashMap<String, String>(2);
         resultsMap.put("First Line", formatedDate);
         resultsMap.put("Second Line",strMssg);
@@ -111,24 +110,23 @@ public class AddGoal extends AppCompatActivity {
         */
 
 
-      // associatedItem works, contains info
-      // String out = associatedItem.toString();
-      // System.out.println(out);
+        // associatedItem works, contains info
+        // String out = associatedItem.toString();
+        // System.out.println(out);
         listItems = new ArrayList<HashMap<String, String>>();
 
         //This iterator should go through exsisting HashMap and put everything to a listView
         Iterator it = associatedItem.entrySet().iterator();
-        while (it.hasNext())
-        {
+        while (it.hasNext()) {
             HashMap<String, String> resultsMap = new HashMap<>();
-            Map.Entry pair = (Map.Entry)it.next();
-            resultsMap.put("First Line",formatedDate);
-            resultsMap.put("Second Line",strMssg);//pair.getValue().toString()
+            Map.Entry pair = (Map.Entry) it.next();
+            resultsMap.put("First Line", formatedDate);
+            resultsMap.put("Second Line", strMssg);//pair.getValue().toString()
             listItems.add(resultsMap);
         }
 
         //dialogLayout = inflater.inflate(R.layout.content_main, null);
-       // list = (ListView) dialogLayout.findViewById(R.id.list);
+        // list = (ListView) dialogLayout.findViewById(R.id.list);
 
 
 
@@ -137,32 +135,32 @@ public class AddGoal extends AppCompatActivity {
         setResult(Activity.RESULT_OK,returnIntent);*/
         finish();
 
-       
-
 
     }
 
-    @Override public void finish ()
-    {
+    @Override
+    public void finish() {
         //  create an Intent, which has a Bundle
         //  To this bundle, we can add whatever data we want to send back to the calling Activity
-        Intent intentResults = new Intent ();
+        Intent intentResults = new Intent();
 
         // Add some sample                    data
-        intentResults.putExtra ("LIST_DATA",listItems);
+        intentResults.putExtra("LIST_DATA", listItems);
 
         //  Set the result to OK and to pass back this Intent;
         // if this is not set then it assumes it was NOT Ok.
         // if the second argument is blank then nothing will be sent back
 
-        setResult (RESULT_OK, intentResults);
-
+        if (associatedItem.isEmpty()) {
+            setResult(RESULT_CANCELED, intentResults);
+        } else {
+            setResult(RESULT_OK, intentResults);
+        }
 
 
         // Do whatever else the parent class would normally do in its finish() method
-        super.finish ();
+        super.finish();
     }
-
 
 
 }
