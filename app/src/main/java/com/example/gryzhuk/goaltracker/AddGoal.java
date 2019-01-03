@@ -148,13 +148,16 @@ public class AddGoal extends AppCompatActivity {
         //  To this bundle, we can add whatever data we want to send back to the calling Activity
         Intent intentResults = new Intent ();
 
-        // Add some sample data
+        // Add some sample                    data
         intentResults.putExtra ("LIST_DATA",listItems);
 
         //  Set the result to OK and to pass back this Intent;
         // if this is not set then it assumes it was NOT Ok.
         // if the second argument is blank then nothing will be sent back
+
         setResult (RESULT_OK, intentResults);
+
+
 
         // Do whatever else the parent class would normally do in its finish() method
         super.finish ();

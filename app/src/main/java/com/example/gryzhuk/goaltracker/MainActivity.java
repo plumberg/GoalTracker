@@ -22,15 +22,33 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
     private ListView list;
+    private ArrayList<HashMap<String, String>> listItems;
+    private SimpleAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        list = findViewById(R.id.list);
+
         setupToolbar();
+        setupListAndAdapter();
         setupFAB();
 
 
+    }
+
+    private void setupListAndAdapter() {
+        listItems = new ArrayList<>();
+        list = findViewById(R.id.list);
+
+        String[] from = {"First Line", "Second Line"};
+        int[] to = {R.id.textUp, R.id.text2};
+        // create the adapter for the ListView and bind it to the ListView...
+        adapter = new SimpleAdapter(this, listItems, R.layout.list_item,
+                from, to);
+
+
+        list.setAdapter(adapter);
     }
 
     public void setupToolbar() {
@@ -46,32 +64,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, AddGoal.class);
-                startActivityForResult (new Intent(MainActivity.this,AddGoal.class),100);
+                startActivityForResult(new Intent(MainActivity.this, AddGoal.class), 100);
 
-               // startActivity(new Intent(MainActivity.this,AddGoal.class));
+                // startActivity(new Intent(MainActivity.this,AddGoal.class));
             }
         });
     }
+
     @Override
-    protected void onActivityResult (int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode == RESULT_OK) {
             Bundle bundle = data.getExtras();
-            ArrayList<HashMap<String, String>> listItems = (ArrayList<HashMap<String, String>>) bundle.get("LIST_DATA");
-
-
-            String[] from = {"First Line", "Second Line"};
-            int[] to = {R.id.textUp, R.id.text2};
-            // create the adapter for the ListView and bind it to the ListView...
-            SimpleAdapter adapter = new SimpleAdapter(this, listItems, R.layout.list_item,
-                    from, to);
-
-            list.setAdapter(adapter);
+            listItems.addAll((ArrayList<HashMap<String, String>>)bundle.get("LIST_DATA"));
+            adapter.notifyDataSetChanged();
         }
     }
 
 
-        @Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);

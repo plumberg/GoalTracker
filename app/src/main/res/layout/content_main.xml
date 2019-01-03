@@ -58,6 +58,16 @@
                 fab:fab_label="Add Goal"
                 fab:fab_size="mini" />
 
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/remove_from_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_remove_from_list"
+                fab:fab_colorNormal="@color/colorPrimary"
+                fab:fab_colorPressed="#c784d3ed"
+                fab:fab_label="Remove Goal"
+                fab:fab_size="mini" />
+
         </com.github.clans.fab.FloatingActionMenu>
 
         <ListView
@@ -66,20 +76,19 @@
             android:layout_height="wrap_content" />
 
 
-
     </RelativeLayout>
-<!--
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
-        <ListView
-            android:id="@android:id/list"
+    <!--
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:drawSelectorOnTop="false"
-            />
-    </LinearLayout>
--->
+            android:layout_height="fill_parent" >
+            <ListView
+                android:id="@android:id/list"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:drawSelectorOnTop="false"
+                />
+        </LinearLayout>
+    -->
 
 </android.support.constraint.ConstraintLayout>
