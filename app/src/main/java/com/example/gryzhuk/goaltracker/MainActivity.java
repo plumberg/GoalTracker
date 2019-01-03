@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView list;
     private ArrayList<HashMap<String, String>> listItems;
     private SimpleAdapter adapter;
+    private final String STATE_LIST = "STATE LIST";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,16 @@ public class MainActivity extends AppCompatActivity {
         setupToolbar();
         setupListAndAdapter();
         setupFAB();
+
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        // call the super-class's method to save fields, etc.
+        super.onSaveInstanceState(outState);
+
+       // outState.putString(STATE_LIST, listItems);
 
 
     }
@@ -71,10 +82,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        fabRemove.setOnClickListener(new View.OnClickListener(){
+        fabRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this,"Remove clicked",Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Remove clicked", Toast.LENGTH_LONG).show();
                 //here add option to click on list_item which removes it
             }
         });
@@ -87,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode == RESULT_OK) {
             Bundle bundle = data.getExtras();
-            listItems.addAll((ArrayList<HashMap<String, String>>)bundle.get("LIST_DATA"));
+            listItems.addAll((ArrayList<HashMap<String, String>>) bundle.get("LIST_DATA"));
             adapter.notifyDataSetChanged();
         }
     }
