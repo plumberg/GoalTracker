@@ -39,6 +39,7 @@ public class AddGoal extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_goal_text);
 
+
         strMssg = "";
 
         list = findViewById(R.id.list);
@@ -129,5 +130,6 @@ public class AddGoal extends AppCompatActivity {
 
         view = getLayoutInflater().inflate(R.layout.list_item,null);
         list.setAdapter(adapter);
+
     }
 }
