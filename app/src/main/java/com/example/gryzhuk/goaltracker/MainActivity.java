@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         // call the super-class's method to save fields, etc.
         super.onSaveInstanceState(outState);
 
-       // outState.putString(STATE_LIST, listItems);
+        // outState.putString(STATE_LIST, listItems);
 
 
     }
@@ -70,8 +70,11 @@ public class MainActivity extends AppCompatActivity {
     public void setupFAB() {
         final com.github.clans.fab.FloatingActionButton fabAdd;
         final com.github.clans.fab.FloatingActionButton fabRemove;
+        final com.github.clans.fab.FloatingActionButton fabWidget;
+
         fabAdd = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.add_to_list);  //changed from  R.id.fab button
         fabRemove = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.remove_from_list);
+        fabWidget = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.create_widget);
 
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,10 +88,19 @@ public class MainActivity extends AppCompatActivity {
         fabRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Remove clicked", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Remove clicked", Toast.LENGTH_SHORT).show();
                 //here add option to click on list_item which removes it
             }
         });
+
+        fabWidget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //here open new screen for creating widget
+
+            }
+        });
+
 
     }
 
