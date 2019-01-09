@@ -1,8 +1,10 @@
 package com.example.gryzhuk.goaltracker;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.content.Intent;
 import android.widget.RemoteViews;
 
 import io.paperdb.Paper;
@@ -28,6 +30,18 @@ public class AppWidgetGoal extends AppWidgetProvider {
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
+
+        /*
+        // Create an Intent to launch ExampleActivity
+        Intent intent = new Intent(context, AddGoal.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+
+        // Get the layout for the App Widget and attach an on-click listener
+        // to the button
+        RemoteViews views1 = new RemoteViews(context.getPackageName(), R.layout.activity_add_widget);
+        views.setOnClickPendingIntent(R.id.widget_done_btn, pendingIntent);
+
+        appWidgetManager.updateAppWidget(appWidgetId, views1);*/
     }
 
     @Override

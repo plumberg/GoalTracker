@@ -99,14 +99,18 @@ public class MainActivity extends AppCompatActivity {
                 //here open new screen for creating widget
 
                 Intent i = new Intent(MainActivity.this, AppWidgetGoal.class);
-                startActivity(i);
+               // startActivity(i);
+             onNewIntent(i);
             }
         });
 
 
     }
 
-
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 

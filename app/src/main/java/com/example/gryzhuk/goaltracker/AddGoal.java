@@ -44,7 +44,7 @@ public class AddGoal extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {//LayoutInflater inflater
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_goal_text);
+        setContentView(R.layout.activity_add_widget);
         // intent = new Intent();
         // intent.setClass(this,MainActivity.class);
         strMssg = "";
@@ -52,8 +52,11 @@ public class AddGoal extends AppCompatActivity {
 
         setupMsg();
     }
+    public void setupMsg() {
+        message = (EditText) findViewById(R.id.enteredWidgetText);
+    }
 
-
+/*
     public void setupDate() throws ParseException {
         //  picker.setMinDate(new Date().getDate());
         setContentView(R.layout.activity_add_goal);
@@ -75,13 +78,19 @@ public class AddGoal extends AppCompatActivity {
 
 
     }
-
+*/
     public void doneButtonHandler(View view) {
         //add to the screen list, save as json?
         //Item is a date, subItem is a message
 
         /*Toast.makeText(this,strMssg+" "+picker.getDayOfMonth()+"/"+
                 (picker.getMonth() + 1)+"/"+picker.getYear(),Toast.LENGTH_LONG).show();*/
+        strMssg = message.getText().toString();
+        if (!strMssg.equals("")) {
+            picker = (DatePicker) findViewById(R.id.datePickerWidget);
+        } else
+            Toast.makeText(getApplicationContext(), "Must include message", Toast.LENGTH_SHORT).show();
+
         setContentView(content_main);
         int day = picker.getDayOfMonth();
         int month = picker.getMonth();
