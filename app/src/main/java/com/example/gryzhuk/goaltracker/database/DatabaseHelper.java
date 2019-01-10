@@ -40,18 +40,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public long insertGoal(String note) {
+    public long insertGoal(String note, String date) {
         // get writable database as we want to write data
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        // `id` and `timestamp` will be inserted automatically.
+        // `id`  will be inserted automatically.
         // no need to add them
         values.put(Goal.COLUMN_NOTE, note);
-
+        values.put(Goal.COLUMN_TIMESTAMP,date);
         // insert row
         long id = db.insert(Goal.TABLE_NAME, null, values);
-
+        //if id = -1 it's incorrect
+        /*if(id == -1){
+               System.out.println("Data inserted incorrectly");
+        }else{
+            System.out.println("Data inserted correctly");
+        }*/
         // close db connection
         db.close();
 
@@ -144,5 +149,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.delete(Goal.TABLE_NAME, Goal.COLUMN_ID + " = ?",
                 new String[]{String.valueOf(goal.getId())});
         db.close();
+    }
+
+    //getting all the db data in Cursor
+    public Cursor getData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM "+ Goal.TABLE_NAME;
+        Cursor data = db.rawQuery(query,null);
+        return data;
     }
 }

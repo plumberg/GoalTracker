@@ -1,6 +1,8 @@
 package com.example.gryzhuk.goaltracker.lib;
 
-public class Goal {
+import java.io.Serializable;
+
+public class Goal implements Serializable {
     public static final String TABLE_NAME = "GOALS";
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_NOTE = "note";
@@ -15,7 +17,8 @@ public class Goal {
             "CREATE TABLE " + TABLE_NAME + "("
                     + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + COLUMN_NOTE + " TEXT,"
-                    + COLUMN_TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP"
+                    //+ COLUMN_TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP"
+                    + COLUMN_TIMESTAMP + " TEXT"
                     + ")";
 
 
