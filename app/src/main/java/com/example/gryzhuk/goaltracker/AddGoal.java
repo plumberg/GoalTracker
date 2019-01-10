@@ -38,8 +38,8 @@ public class AddGoal extends AppCompatActivity {
     private HashMap<String, String> associatedItem;
     private String strMssg;
     private ArrayList<HashMap<String, String>> listItems;
-    //private Intent intent;
-    //View dialogLayout;
+
+
 
 
     protected void onCreate(Bundle savedInstanceState) {//LayoutInflater inflater
@@ -55,6 +55,8 @@ public class AddGoal extends AppCompatActivity {
     public void setupMsg() {
         message = (EditText) findViewById(R.id.enteredWidgetText);
     }
+
+
 
 /*
     public void setupDate() throws ParseException {
@@ -107,10 +109,12 @@ public class AddGoal extends AppCompatActivity {
 
         associatedItem.put(formatedDate, strMssg);
 
+        /*SQL:*/
+
+
+
         // Create an ArrayList that will hold the data.
         // Each HashMap entry will have a Key (First line) and a Value (Second line) of each one of the ListView Items.
-
-
         // String [] hashList = (String[]) associatedItem.entrySet().toArray();
       /*  HashMap<String, String> resultsMap = new HashMap<String, String>(2);
         resultsMap.put("First Line", formatedDate);

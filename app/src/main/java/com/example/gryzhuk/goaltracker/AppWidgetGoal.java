@@ -39,7 +39,7 @@ public class AppWidgetGoal extends AppWidgetProvider {
         // Get the layout for the App Widget and attach an on-click listener
         // to the button
         RemoteViews views1 = new RemoteViews(context.getPackageName(), R.layout.activity_add_widget);
-        views.setOnClickPendingIntent(R.id.widget_done_btn, pendingIntent);
+        views1.setOnClickPendingIntent(R.id.widget_done_btn, pendingIntent);
 
         appWidgetManager.updateAppWidget(appWidgetId, views1);*/
     }
