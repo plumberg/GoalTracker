@@ -1,22 +1,21 @@
 package com.example.gryzhuk.goaltracker;
 
-import android.app.Activity;
+
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
+
 import android.widget.Toast;
 
 import com.example.gryzhuk.goaltracker.database.DatabaseHelper;
@@ -29,10 +28,12 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private ListView list;
     //   private ArrayList<HashMap<String, String>> listItems;
-    private ListAdapter adapter;
+    private ArrayAdapter adapter;
     private final String STATE_LIST = "STATE LIST";
     DatabaseHelper mDatabaseHelper;
-    private ArrayList<Goal> listItems;
+    private ArrayList<String> listItems;
+    private Cursor c;
+    private CustomAdapter cAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
        // setupListAndAdapter();
         setupListview();
         setupFAB();
+
 
 
     }
@@ -62,26 +64,63 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupListview() {
-        listItems = new ArrayList<>();
+        listItems = new ArrayList<String>();
         list = findViewById(R.id.list);
-        adapter = new ArrayAdapter<>(this,R.layout.list_item,listItems);
-        list.setAdapter(adapter);
+       // adapter = new ArrayAdapter<>(this,R.layout.list_item,listItems);
+        cAdapter = new CustomAdapter(this,listItems);
+        //adapter = new ArrayAdapter<>(/*context*/this,R.layout.list_item,R.id.textUp,mDatabaseHelper.getAllGoals());
+        list.setAdapter(cAdapter);
 
     }
 
-    private void setupListAndAdapter() {
+     /*  private void setupListAndAdapter() {
         listItems = new ArrayList<>();
         list = findViewById(R.id.list);
 
         String[] from = {"First Line", "Second Line"};
         int[] to = {R.id.textUp, R.id.text2};
         // create the adapter for the ListView and bind it to the ListView...
-  /*      adapter = new SimpleAdapter(this, listItems, R.layout.list_item,
+     adapter = new SimpleAdapter(this, listItems, R.layout.list_item,
                 from, to);
 
 
         list.setAdapter(adapter);
-        */
+
+    }
+*/
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100 && resultCode == RESULT_OK) {
+           // Bundle bundle = data.getExtras();
+            //listItems.addAll((ArrayList<HashMap<String, String>>) bundle.get("LIST_DATA"));
+           // listItems.addAll((ArrayList<Goal>) bundle.get("LIST_DATA"));
+             c = mDatabaseHelper.getData();
+            Log.d("Database updt","Got data from db");
+           cursorToList(c);
+            cAdapter.notifyDataSetChanged();
+
+            Log.d("Database updt","Sent notification");
+
+        }
+    }
+
+    public void cursorToList(Cursor c) {
+       listItems.clear();
+        if (c.getCount() > 0) {
+            while (c.moveToNext()) {
+                listItems.add(c.getString(1));
+                listItems.add(c.getString(2));
+                Log.d("Database updt","Added to list");
+                Log.d("Database updt",c.getString(1));
+                Log.d("Database updt",c.getString(2));
+            }
+
+        }
+
     }
 
     public void setupToolbar() {
@@ -103,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, AddGoal.class);
                 startActivityForResult(new Intent(MainActivity.this, AddGoal.class), 100);
-               //  startActivity(i);
+                //  startActivity(i);
             }
         });
 
@@ -133,20 +172,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100 && resultCode == RESULT_OK) {
-            Bundle bundle = data.getExtras();
-            //listItems.addAll((ArrayList<HashMap<String, String>>) bundle.get("LIST_DATA"));
-            listItems.addAll((ArrayList<Goal>) bundle.get("LIST_DATA"));
-          //  adapter.notifyDataSetChanged();
-            adapter.notifyAll();
-        }
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
