@@ -149,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
         fabRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                
                 Toast.makeText(MainActivity.this, "Remove clicked", Toast.LENGTH_SHORT).show();
                 //here add option to click on list_item which removes it
             }
