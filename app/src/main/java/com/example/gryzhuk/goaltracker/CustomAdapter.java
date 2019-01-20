@@ -17,7 +17,7 @@ public class CustomAdapter extends ArrayAdapter<String>
 
     public CustomAdapter(Context context, List<String> strings)
     {
-        super(context, R.layout.content_main);
+        super(context, R.layout.content_main,strings);
         this.context = context;
         this.strings = new ArrayList<String>();
         this.strings = strings;
