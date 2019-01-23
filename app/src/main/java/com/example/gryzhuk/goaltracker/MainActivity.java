@@ -1,7 +1,10 @@
 package com.example.gryzhuk.goaltracker;
 
 
+import android.app.AlertDialog;
 import android.app.FragmentManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 
@@ -187,11 +190,39 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.about_menu_item) {
+            showInfoDialog(MainActivity.this,"About","GoalTracker, in process of developing.");
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public static void showInfoDialog (Context context, String strTitle, String strMsg)
+    {
+        // create the listener for the dialog
+        final DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener ()
+        {
+            @Override
+            public void onClick (DialogInterface dialog, int which)
+            {
+                //nothing needed to do here
+            }
+        };
+
+        // Create the AlertDialog.Builder object
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder (context);
+
+        // Use the AlertDialog's Builder Class methods to set the title, icon, message, et al.
+        // These could all be chained as one long statement, if desired
+        alertDialogBuilder.setTitle (strTitle);
+        alertDialogBuilder.setIcon (R.mipmap.ic_launcher_round);
+        alertDialogBuilder.setMessage (strMsg);
+        alertDialogBuilder.setCancelable (true);
+        alertDialogBuilder.setNegativeButton (context.getText (android.R.string.ok), listener);
+
+        // Create and Show the Dialog
+        alertDialogBuilder.show ();
     }
 
 
