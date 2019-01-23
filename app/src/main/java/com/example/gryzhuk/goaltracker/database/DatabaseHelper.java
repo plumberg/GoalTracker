@@ -51,6 +51,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(Goal.COLUMN_TIMESTAMP,date);
         // insert row
         long id = db.insert(Goal.TABLE_NAME, null, values);
+
         //if id = -1 it's incorrect
         /*if(id == -1){
                System.out.println("Data inserted incorrectly");

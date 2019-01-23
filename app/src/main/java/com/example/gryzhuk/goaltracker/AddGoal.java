@@ -31,28 +31,24 @@ import static java.util.Locale.US;
 import static java.util.stream.IntStream.concat;
 
 public class AddGoal extends AppCompatActivity {
-    // create arraylist os string
-    // json storing date, message
-    private ListView list;
-    DatabaseHelper mDatabaseHelper;
+
+    private DatabaseHelper mDatabaseHelper;
     private EditText message;
     private DatePicker picker;
-    private HashMap<String, String> associatedItem;
-    private String strMssg;
-    ArrayList<String> listData;
-    private ArrayList<HashMap<String, String>> listItems;
-    private long id = -1;
+    private boolean mRecordSuccessfullyAdded = false;
 
     private ArrayList<Goal> notesList = new ArrayList<Goal>();
 
-    protected void onCreate(Bundle savedInstanceState) {//LayoutInflater inflater
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_widget);
-        strMssg = "";
-        associatedItem = new HashMap<String, String>();
-        mDatabaseHelper = new DatabaseHelper(this);
-        list = (ListView) findViewById(R.id.list);
-        setupMsg();
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate (savedInstanceState);
+        setContentView (R.layout.activity_add_widget);
+        mDatabaseHelper = new DatabaseHelper (this);
+        setupViews ();
+    }
+
+    private void setupViews() {
+        message = findViewById (R.id.enteredWidgetText);
+        picker = findViewById(R.id.datePickerWidget);
     }
 
     public void setupMsg() {
@@ -65,85 +61,59 @@ public class AddGoal extends AppCompatActivity {
 
         /*Toast.makeText(this,strMssg+" "+picker.getDayOfMonth()+"/"+
                 (picker.getMonth() + 1)+"/"+picker.getYear(),Toast.LENGTH_LONG).show();*/
-        strMssg = message.getText().toString();
-        if (!strMssg.equals("")) {
-            picker = (DatePicker) findViewById(R.id.datePickerWidget);
-        } else
-            Toast.makeText(getApplicationContext(), "Must include message", Toast.LENGTH_SHORT).show();
-
-        setContentView(content_main);
-        int day = picker.getDayOfMonth();
-        int month = picker.getMonth();
-        int year = picker.getYear();
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month, day);
-
-
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", US);
-        String formatedDate = sdf.format(calendar.getTime());
-
-        id = mDatabaseHelper.insertGoal(formatedDate, strMssg);
-        Log.d("Database updt","Finish addgoal");
-        // associatedItem.put(formatedDate, strMssg);
-        // associatedItem works, contains info
-
-        // String out = associatedItem.toString();
-    /*    // System.out.println(out);
-        listItems = new ArrayList<HashMap<String, String>>();
-
-        //This iterator should go through exsisting HashMap and put everything to a listView
-        Iterator it = associatedItem.entrySet().iterator();
-        while (it.hasNext()) {
-            HashMap<String, String> resultsMap = new HashMap<>();
-            Map.Entry pair = (Map.Entry) it.next();
-            resultsMap.put("First Line", formatedDate);
-            resultsMap.put("Second Line", strMssg);//pair.getValue().toString()
-            listItems.add(resultsMap);
+        String strMsg = message.getText ().toString ();
+        if (strMsg.length () == 0) {
+            Toast.makeText (getApplicationContext (), "Must include message",
+                    Toast.LENGTH_SHORT).show ();
         }
-
-*/
-
-
-        Cursor data = mDatabaseHelper.getData();
-        listData = new ArrayList<>();
-        while (data.moveToNext()) {
-            listData.add(data.getString(1));
-            listData.add(data.getString(2));
-            Log.d("Database updt","listdata added ");
+        else {
+            String formattedDate = getFormattedDateFromPicker ();
+            attemptToAddNewRecord (strMsg, formattedDate);
+            finish ();
         }
-
-           /* ListAdapter adapter = new ArrayAdapter<>(this,R.layout.list_item,listData);
-            list.setAdapter(adapter);*/
-
 
         finish();
 
 
     }
 
+    private void attemptToAddNewRecord(String strMsg, String formattedDate) {
+        long id = mDatabaseHelper.insertGoal (formattedDate, strMsg);
+        mRecordSuccessfullyAdded = id !=-1;
+    }
+
+    private String getFormattedDateFromPicker() {
+        int day = picker.getDayOfMonth ();
+        int month = picker.getMonth ();
+        int year = picker.getYear ();
+        Calendar calendar = Calendar.getInstance ();
+        calendar.set (year, month, day);
+
+        SimpleDateFormat sdf = new SimpleDateFormat ("MM/dd/yyyy", US);
+        return sdf.format (calendar.getTime ());
+    }
+
     @Override
     public void finish() {
-        //  create an Intent, which has a Bundle
-        //  To this bundle, we can add whatever data we want to send back to the calling Activity
-        //Intent intentResults = new Intent();
-        // Add some sample                    data
-        //  intentResults.putExtra("LIST_DATA", listData);
-        //intentResults.putExtra("LIST_DATA", listItems);
-        //  Set the result to OK and to pass back this Intent;
-        // if this is not set then it assumes it was NOT Ok.
-        // if the second argument is blank then nothing will be sent back
+        setResult (mRecordSuccessfullyAdded ? RESULT_OK : RESULT_CANCELED);
+        super.finish ();
+    }
 
-       /* if (listData.isEmpty()) {
-            setResult(RESULT_CANCELED, intentResults);
-        } else {
-            setResult(RESULT_OK, intentResults);
-        }
-*/  Log.d("Database updt","Finish addgoal");
-        if (id != -1) {
-            setResult(RESULT_OK);
-        }
-        // Do whatever else the parent class would normally do in its finish() method
-        super.finish();
+
+    @Override protected void onSaveInstanceState (Bundle outState)
+    {
+        super.onSaveInstanceState (outState);
+        outState.putInt ("YEAR", picker.getYear ());
+        outState.putInt ("MONTH", picker.getMonth ());
+        outState.putInt ("DAY", picker.getDayOfMonth ());
+    }
+
+    @Override protected void onRestoreInstanceState (Bundle savedInstanceState)
+    {
+        super.onRestoreInstanceState (savedInstanceState);
+        picker.updateDate (savedInstanceState.getInt ("YEAR"),
+                savedInstanceState.getInt ("MONTH"),
+                savedInstanceState.getInt ("DAY"));
     }
 
 

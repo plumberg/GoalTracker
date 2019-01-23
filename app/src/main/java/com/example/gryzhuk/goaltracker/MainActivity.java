@@ -1,6 +1,7 @@
 package com.example.gryzhuk.goaltracker;
 
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.database.Cursor;
 
@@ -22,18 +23,20 @@ import com.example.gryzhuk.goaltracker.database.DatabaseHelper;
 import com.example.gryzhuk.goaltracker.lib.Goal;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 //import com.github.clans.fab.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
-    private ListView list;
-    //   private ArrayList<HashMap<String, String>> listItems;
-    private ArrayAdapter adapter;
-    private final String STATE_LIST = "STATE LIST";
+    private ListView mListView;
     DatabaseHelper mDatabaseHelper;
-    private ArrayList<String> listItems;
-    private Cursor c;
-    private CustomAdapter cAdapter;
+  //  private ArrayAdapter adapter;
+    private List<Map.Entry<String, Object>> mListItems;
+    private Map<String, Object> mMapItems;
+    private Cursor mCursor;
+    private CustomAdapter mCustomAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +44,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mDatabaseHelper = new DatabaseHelper(this);
         setupToolbar();
-       // setupListAndAdapter();
-        setupListview();
+        setupListAndAdapter ();
         setupFAB();
+        copyDBToList ();
 
 
 
@@ -63,51 +66,48 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void setupListview() {
-        listItems = new ArrayList<String>();
-        list = findViewById(R.id.list);
-       // adapter = new ArrayAdapter<>(this,R.layout.list_item,listItems);
-        cAdapter = new CustomAdapter(this,listItems);
-        //adapter = new ArrayAdapter<>(/*context*/this,R.layout.list_item,R.id.textUp,mDatabaseHelper.getAllGoals());
-        list.setAdapter(cAdapter);
+
+       private void setupListAndAdapter() {
+           // both empty for now
+           mMapItems = new LinkedHashMap<>();
+           mListItems = new ArrayList<>();
+
+           mCustomAdapter = new CustomAdapter(this, mListItems);
+
+           mListView = findViewById(R.id.list);
+           mListView.setAdapter(mCustomAdapter);
 
     }
 
-     /*  private void setupListAndAdapter() {
-        listItems = new ArrayList<>();
-        list = findViewById(R.id.list);
-
-        String[] from = {"First Line", "Second Line"};
-        int[] to = {R.id.textUp, R.id.text2};
-        // create the adapter for the ListView and bind it to the ListView...
-     adapter = new SimpleAdapter(this, listItems, R.layout.list_item,
-                from, to);
-
-
-        list.setAdapter(adapter);
-
-    }
-*/
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == 100 && resultCode == RESULT_OK) {
-           // Bundle bundle = data.getExtras();
-            //listItems.addAll((ArrayList<HashMap<String, String>>) bundle.get("LIST_DATA"));
-           // listItems.addAll((ArrayList<Goal>) bundle.get("LIST_DATA"));
-             c = mDatabaseHelper.getData();
-            Log.d("Database updt","Got data from db");
-           cursorToList(c);
-            cAdapter.notifyDataSetChanged();
-
-            Log.d("Database updt","Sent notification");
-
+            copyDBToList ();
+            mCustomAdapter.notifyDataSetChanged();
         }
     }
 
+    private void copyDBToList() {
+        mCursor = mDatabaseHelper.getData();
+        mMapItems.clear ();
+        if (mCursor.getCount() > 0) {
+            // add items individually to map
+            while (mCursor.moveToNext()) {
+                mMapItems.put (mCursor.getString (2),
+                        mCursor.getString (1));
+            }
+
+            // add all items to mListView
+            mListItems.clear ();
+            mListItems.addAll (mMapItems.entrySet ());
+        }
+    }
+/*
     public void cursorToList(Cursor c) {
        listItems.clear();
         if (c.getCount() > 0) {
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-    }
+    }*/
 
     public void setupToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -140,9 +140,7 @@ public class MainActivity extends AppCompatActivity {
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, AddGoal.class);
                 startActivityForResult(new Intent(MainActivity.this, AddGoal.class), 100);
-                //  startActivity(i);
             }
         });
 
@@ -195,4 +193,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }
